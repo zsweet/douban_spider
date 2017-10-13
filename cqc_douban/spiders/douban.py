@@ -14,6 +14,13 @@ class DoubanSpider(scrapy.Spider):
 
     def parse(self, response):
         item = CqcDoubanItem()
+        item['id'] = response.meta['data']['id']
+        item['source'] = response.meta['data']['source']
+        item['content'] = response.meta['data']['content']
+        item['title'] = response.meta['data']['title']
+        item['tags'] = response.meta['data']['tags']
+        item['url'] = response.meta['data']['url']
+
         item['actors'] = actors = response.css('div[id="info"] .actor .attrs a::text').extract()  #主演
         item['director'] = director = response.css('div[id="info"] .attrs a[rel="v:directedBy"]::text').extract_first()  #导演
         country = response.xpath(u'//span[contains(./text(), "制片国家/地区:")]/following::text()[1]').extract_first()
@@ -54,7 +61,6 @@ class DoubanSpider(scrapy.Spider):
             if infospan[index].css('span::text').extract() == ['编剧'] :
                 screenwriter = infospan[index+1].css('a::text').extract()
         item['screenwriter'] = screenwriter
-        item['id'] = response.meta['id']
 
         item['reviews'] = []
         for index in range(0,len(reviews),3):
@@ -133,9 +139,9 @@ class DoubanSpider(scrapy.Spider):
        # print("GGGGGGGGGGGGGGGGGGGGGGGGG!!!!")
        # yield  Request("https://movie.douban.com/subject/1291549/",self.parse)
         #print("数据库连接状态 %d " % collection.status())
-        for tmp in  collection.find():#.skip(21600):#.limit(5)
+        for tmp in  collection.find():#.skip(21600):#.limit(3).skip(2315)
             print(tmp['id'])
-            yield Request(tmp['url'],self.parse,meta={'id':tmp['id']})
+            yield Request(tmp['url'],self.parse,meta={'data':tmp})
 
 
 # 现在已经爬下来了一批豆瓣电影数据，需要更详细的信息，这里需要你来爬一下，顺便练练手。

@@ -12,6 +12,11 @@ from scrapy import Field
 class CqcDoubanItem(scrapy.Item):
     collection = 'movies_copy'
     id = Field()
+    source = Field()
+    content = Field()
+    title = Field()
+    tags = Field()
+    url = Field()
     actors = Field()
     director = Field()
     country = Field()

@@ -26,13 +26,13 @@ MONGO_DB1 = 'myquotes'
 MONGO_COL1 = 'movies'
 
 
-MONGO_URI = 'mongodb://********@106.14.147.***:****/admin'
-#MONGO_URI = 'mongodb://*********@106.14.147.***:****/admin'
+MONGO_URI = 'mongodb://****:********@106.14.***.***:***/admin'
+#MONGO_URI = 'mongodb://****:********@106.14.***.***:***/admin'
 MONGO_DB = 'douban'
 MONGO_COL = 'movies_copy'
 
-MONGO_URI2 = 'mongodb://********@106.14.147.***:****/admin'
-#MONGO_URI = 'mongodb://********@106.14.147.***:****/admin'
+MONGO_URI2 = 'mongodb://****:********@106.14.***.***:***/admin'
+#MONGO_URI = 'mongodb://****:********@106.14.***.***:***/admin'
 MONGO_DB2 = 'douban'
 MONGO_COL2 = 'movies'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
@@ -41,7 +41,7 @@ MONGO_COL2 = 'movies'
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+#DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -66,9 +66,9 @@ DOWNLOAD_DELAY = 1
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'cqc_douban.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'cqc_douban.middlewares.ProxyMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -102,4 +102,10 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-LOG_FILE = "mylog"
+
+
+LOG_FILE = "mylog_test_retry_local"
+
+PROXY_URL = 'http://***************:5555/random'
+
+RETRY_HTTP_CODES = [401, 403, 408, 414, 500, 502, 503, 504]

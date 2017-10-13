@@ -19,9 +19,9 @@ class CqcDoubanPipeline(object):
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
-            mongo_uri=crawler.settings.get('MONGO_URI'),
-            mongo_db=crawler.settings.get('MONGO_DB'),
-            mongo_col=crawler.settings.get('MONGO_COL')
+            mongo_uri=crawler.settings.get('MONGO_URI1'),
+            mongo_db=crawler.settings.get('MONGO_DB1'),
+            mongo_col=crawler.settings.get('MONGO_COL1')
         )
 
     def open_spider(self, spider):
@@ -48,7 +48,13 @@ class CqcDoubanPipeline(object):
             'rating': item['rating'],
             'rating_sum': item['rating_sum'],
             'rating_per': item['rating_per'],
-            'rating_betterthan': item['rating_betterthan']
+            'rating_betterthan': item['rating_betterthan'],
+            'id':item['id'] ,
+            'source' : item['source'],
+            'content' : item['content'],
+            'title' : item['title'],
+            'tags' : item['tags'],
+            'url' : item['url'],
            # 'test':'aaabbb'
           }
 
@@ -58,7 +64,9 @@ class CqcDoubanPipeline(object):
             #print(item['_id'])
             #print(condition)
             #self.db['quotes'].insert(newdata)
-            self.collection.update_many( condition ,{'$set': newdata},False,False )
+           # print(newdata)
+            self.collection.insert(newdata)
+           # self.collection.update_many( condition ,{'$set': newdata},False,False )
         except BaseException as e:
             print('Reason:')
             print(e)
