@@ -63,8 +63,9 @@ class DoubanSpider(scrapy.Spider):
         item['screenwriter'] = screenwriter
 
         item['reviews'] = []
-        for index in range(0,len(reviews),3):
-            item['reviews'].append(reviews[index])
+        for index in range(0,len(reviews)):
+            if reviews[index].strip() != "":
+               item['reviews'].append(reviews[index])
 
         #
         # infos = response.xpath('//div[@id="info"]/*')
@@ -139,7 +140,7 @@ class DoubanSpider(scrapy.Spider):
        # print("GGGGGGGGGGGGGGGGGGGGGGGGG!!!!")
        # yield  Request("https://movie.douban.com/subject/1291549/",self.parse)
         #print("数据库连接状态 %d " % collection.status())
-        for tmp in  collection.find():#.skip(21600):#.limit(3).skip(2315)
+        for tmp in  collection.find():#.skip(21600):#.limit(3).skip(2315).limit(3)
             print(tmp['id'])
             yield Request(tmp['url'],self.parse,meta={'data':tmp})
 
